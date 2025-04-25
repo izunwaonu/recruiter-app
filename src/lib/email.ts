@@ -86,7 +86,7 @@ export function getApplicationConfirmationEmail(name: string, jobTitle: string) 
       </div>
       
       <div style="margin-bottom: 30px;">
-        <p>If you have any questions in the meantime, please don't hesitate to contact our recruitment team at <a href="mailto:recruitment@recruiter.com" style="color: #2563eb;">recruitment@recruiter.com</a>.</p>
+        <p>If you have any questions in the meantime, please don't hesitate to contact our recruitment team at <a href="mailto:heiddega@gmail.com" style="color: #2563eb;">recruitment@recruiter.com</a>.</p>
         <p>We appreciate your interest in joining our team and wish you the best of luck with your application.</p>
       </div>
       

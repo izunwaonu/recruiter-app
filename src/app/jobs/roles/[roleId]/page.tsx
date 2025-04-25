@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ArrowLeft, Briefcase, MapPin, Banknote, Clock, CheckCircle2 } from "lucide-react"
 
-export async function generateMetadata({ params }: { params: { roleId: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ roleId: string }> }) {
+  const { roleId } = await params;
+  
   const role = await prisma.jobRole.findUnique({
-    where: { id: params.roleId },
+    where: { id: roleId },
     include: { category: true },
   })
 
@@ -23,9 +25,11 @@ export async function generateMetadata({ params }: { params: { roleId: string } 
   }
 }
 
-export default async function JobRolePage({ params }: { params: { roleId: string } }) {
+export default async function JobRolePage({ params }: { params: Promise<{ roleId: string }> }) {
+  const { roleId } = await params;
+  
   const role = await prisma.jobRole.findUnique({
-    where: { id: params.roleId },
+    where: { id: roleId },
     include: { category: true },
   })
 

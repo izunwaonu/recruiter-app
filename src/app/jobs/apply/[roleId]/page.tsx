@@ -11,9 +11,11 @@ export const metadata = {
   description: "Apply for your dream job in the UK with RECRUITER",
 }
 
-export default async function ApplyPage({ params }: { params: { roleId: string } }) {
+export default async function ApplyPage({ params }: { params: Promise<{ roleId: string }> }) {
+  const { roleId } = await params;
+  
   const role = await prisma.jobRole.findUnique({
-    where: { id: params.roleId },
+    where: { id: roleId },
     include: { category: true },
   })
 

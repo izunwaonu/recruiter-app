@@ -6,9 +6,11 @@ import { Card, CardContent } from "@/components/ui/card"
 import { ArrowLeft, ChevronRight } from "lucide-react"
 import { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react"
 
-export async function generateMetadata({ params }: { params: { categoryId: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ categoryId: string }> }) {
+  const { categoryId } = await params;
+  
   const category = await prisma.jobCategory.findUnique({
-    where: { id: params.categoryId },
+    where: { id: categoryId },
   })
 
   if (!category) {
@@ -23,9 +25,11 @@ export async function generateMetadata({ params }: { params: { categoryId: strin
   }
 }
 
-export default async function CategoryPage({ params }: { params: { categoryId: string } }) {
+export default async function CategoryPage({ params }: { params: Promise<{ categoryId: string }> }) {
+  const { categoryId } = await params;
+  
   const category = await prisma.jobCategory.findUnique({
-    where: { id: params.categoryId },
+    where: { id: categoryId },
     include: { jobRoles: true },
   })
 
