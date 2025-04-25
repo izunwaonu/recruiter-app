@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
+  seed            = "ts-node prisma/seed.ts"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model JobCategory {
+  id        String    @id @default(cuid())
+  name      String
+  icon      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  jobRoles  JobRole[]
+}
+
+model JobRole {
+  id           String        @id @default(cuid())
+  title        String
+  description  String        @db.Text
+  salaryRange  String
+  category     JobCategory   @relation(fields: [categoryId], references: [id])
+  categoryId   String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  applications Application[]
+}
+
+model Application {
+  id          String   @id @default(cuid())
+  fullName    String
+  email       String
+  phone       String
+  experience  String   @db.Text
+  resume      String? // URL to uploaded resume
+  coverLetter String?  @db.Text
+  jobRole     JobRole  @relation(fields: [jobRoleId], references: [id])
+  jobRoleId   String
+  status      String   @default("PENDING") // PENDING, REVIEWING, APPROVED, REJECTED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
